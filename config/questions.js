@@ -39,7 +39,7 @@ module.exports = {
     name: 'description',
     message: '项目描述:',
     default: function () {
-      return 'The Tiny.js Game build by tiny client';
+      return 'The Tiny.js Game build by tinyjs client';
     },
   }, {
     type: 'input',
