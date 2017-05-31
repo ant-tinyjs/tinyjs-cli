@@ -1,4 +1,4 @@
-# tiny-cli
+# tinyjs-cli
 
 ## 简介
 
@@ -20,7 +20,7 @@ resource            Resouce.js 生成器
 
 ## 安装
 
-使用 npm 安装 tiny
+使用 npm 安装 tinyjs-cli
 ```bash
 $ npm install tinyjs-cli -g
 ```
