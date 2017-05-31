@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+'use strict';
+
+const program = require('commander');
+const co = require('co');
+const pkg = require('../package.json');
+const chalk = require('chalk');
+const fmt = require('util').format;
+const config = require('../config');
+const updator = require('../lib/updator');
+
+updator.update(function (err, result) {
+  if (err) {
+    return console.error(err);
+  }
+  if (result.isOutdated) {
+    console.log(fmt('%s Tiny.js 推荐版本是 %s, 本地版本是 %s', chalk.yellow('[警告]'), chalk.green.bold(result.latest), chalk.yellow(result.current)));
+    console.log(fmt('%s 你可以执行 %s 来安装此版本', chalk.yellow('[警告]'), chalk.green.bold('tnpm install -g @alipay/tiny@' + result.latest)));
+  }
+
+  program
+    .version(pkg.version)
+    .usage('<command> [options]'.green);
+
+  config.commands.forEach((opt) => {
+    let cmd = program
+      .command(opt.name, '', {noHelp: opt.noHelp})
+      .description(chalk.yellow(opt.description));
+
+    (opt.options || []).forEach((o) => {
+      cmd.option(o.name, o.description);
+    });
+
+    cmd.action(function () {
+      doCommand(Array.prototype.slice.call(process.argv, 2));
+    });
+  });
+
+  if (!process.argv.slice(2).length) {
+    program.help();
+  }
+
+  program.parse(process.argv);
+});
+
+function doCommand(cmd) {
+  const com = cmd[0];
+
+  co(function *() {
+    yield require(`../lib/${com}`)(cmd.slice(1));
+  }).catch(function (e) {
+    console.log(e.stack);
+    console.log('\n');
+  });
+}
