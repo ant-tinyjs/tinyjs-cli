@@ -5,10 +5,10 @@ const shell = require('shelljs');
 
 let currentUser = null;
 
-// 获取 tnpm user 名, 如有
+// 获取 npm user 名, 如有
 try {
   if (!currentUser) {
-    const ret = shell.exec('tnpm whoami', {silent: true});
+    const ret = shell.exec('npm whoami', {silent: true});
     if (ret.code === 0) {
       // 取最后一行
       const stdout = ret.stdout.trim().split('\n');
