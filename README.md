@@ -98,6 +98,9 @@ var background = Tiny.Sprite.fromImage(RESOURCES['s_bg_jpg']);
 
 ### 生成 tileset 文件
 
+> 此功能依赖 [ImageMagick](https://www.imagemagick.org)，所以使用之前请确认是否已经安装，识别方法：`which convert` 或 `which identify`。
+> 如果没有安装，OSX 设备可以通过 brew 快速安装：`brew install imagemagick`
+
 配置 `tiny-app.config.js` 文件：
 
 ``` js
