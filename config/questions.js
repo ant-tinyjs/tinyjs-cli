@@ -19,15 +19,31 @@ try {
 }
 
 /**
- * 插件类型
+ * choices types
  */
-const ALL_TYPES = {
-  class: '类（首字母大写，如：PluginClassName）',
-  module: '模块（如：pluginModuleName）',
+const TYPES = {
+  init: {
+    basicTpl: '基础包',
+    offlineTpl: '离线包',
+    //onlineTpl: '在线包'
+  },
+
+  plugin: {
+    class: '类（首字母大写，如：PluginClassName）',
+    module: '模块（如：pluginModuleName）',
+  }
 };
 
 module.exports = {
   init: [{
+    type: 'list',
+    name: 'tplType',
+    message: '请选择项目类型',
+    choices: getTypes('init'),
+    default: function() {
+      return 'basicTpl';
+    }
+  }, {
     type: 'input',
     name: 'name',
     message: '项目名:',
@@ -64,7 +80,7 @@ module.exports = {
     type: 'list',
     name: 'type',
     message: '插件类型:',
-    choices: getTypes(),
+    choices: getTypes('plugin'),
     default: function () {
       return 'class';
     },
@@ -76,12 +92,29 @@ module.exports = {
       return currentUser;
     },
   }],
+  bundle: [
+    {
+      type: 'input',
+      name: 'bundleName',
+      message: 'bundle名称:',
+      default: function () {
+        return 'index';
+      },
+    }
+  ]
 };
 
-function getTypes() {
-  return Object.keys(ALL_TYPES).map((key) => {
+function getTypes(commander) {
+  let types = TYPES[commander];
+
+  if(!commander || !types) {
+    console.log(commander, '命令TYPES不存在');
+    return;
+  }
+
+  return Object.keys(types).map((key) => {
     return {
-      name: ALL_TYPES[key],
+      name: types[key],
       value: key
     };
   });
