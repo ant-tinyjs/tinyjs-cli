@@ -25,7 +25,7 @@ const TYPES = {
   init: {
     basicTpl: '基础包',
     offlineTpl: '离线包',
-    //onlineTpl: '在线包'
+    onlineTpl: '在线包',
   },
 
   plugin: {
@@ -43,7 +43,8 @@ module.exports = {
     default: function() {
       return 'basicTpl';
     }
-  }, {
+  }],
+  config: [{
     type: 'input',
     name: 'name',
     message: '项目名:',
