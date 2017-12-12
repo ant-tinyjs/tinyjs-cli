@@ -1,19 +1,22 @@
 'use strict';
 
 const path = require('path');
-const shell = require('shelljs');
+const npmWhoami = require('npm-whoami');
+const utils = require('../lib/common/utils');
 
-let currentUser = null;
+let currentUser = utils.localStorage.get('currentUser');
 
 // 获取 npm user 名, 如有
 try {
   if (!currentUser) {
-    const ret = shell.exec('npm whoami', {silent: true});
-    if (ret.code === 0) {
-      // 取最后一行
-      const stdout = ret.stdout.trim().split('\n');
-      currentUser = stdout[stdout.length - 1].trim();
-    }
+    npmWhoami.sync({
+      timeout: 5000,
+    }, function (err, username) {
+      if (!err) {
+        currentUser = username;
+        utils.localStorage.set('currentUser', currentUser);
+      }
+    });
   }
 } catch (e) {
 }
@@ -23,15 +26,14 @@ try {
  */
 const TYPES = {
   init: {
-    basicTpl: '基础包',
-    offlineTpl: '离线包',
-    //onlineTpl: '在线包'
+    basicTpl: '简易版',
+    // offlineTpl: '离线版',
+    //onlineTpl: '在线版本'
   },
-
   plugin: {
     class: '类（首字母大写，如：PluginClassName）',
     module: '模块（如：pluginModuleName）',
-  }
+  },
 };
 
 module.exports = {
@@ -40,9 +42,9 @@ module.exports = {
     name: 'tplType',
     message: '请选择项目类型',
     choices: getTypes('init'),
-    default: function() {
+    default: function () {
       return 'basicTpl';
-    }
+    },
   }, {
     type: 'input',
     name: 'name',
@@ -55,7 +57,7 @@ module.exports = {
     name: 'description',
     message: '项目描述:',
     default: function () {
-      return 'The Tiny.js Game build by tinyjs client';
+      return 'The Tiny.js game build by tinyjs-cli';
     },
   }, {
     type: 'input',
@@ -68,7 +70,7 @@ module.exports = {
   plugin: [{
     type: 'input',
     name: 'name',
-    message: '插件名:'
+    message: '插件名:',
   }, {
     type: 'input',
     name: 'description',
@@ -100,14 +102,14 @@ module.exports = {
       default: function () {
         return 'index';
       },
-    }
-  ]
+    },
+  ],
 };
 
 function getTypes(commander) {
-  let types = TYPES[commander];
+  const types = TYPES[commander];
 
-  if(!commander || !types) {
+  if (!commander || !types) {
     console.log(commander, '命令TYPES不存在');
     return;
   }
@@ -115,7 +117,7 @@ function getTypes(commander) {
   return Object.keys(types).map((key) => {
     return {
       name: types[key],
-      value: key
+      value: key,
     };
   });
 }

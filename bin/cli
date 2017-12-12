@@ -12,8 +12,8 @@ const updator = require('../lib/updator');
 updator.update(function (err, result) {
   if (!err) {
     if (result.isOutdated) {
-      console.log(fmt('%s Tiny.js 推荐版本是 %s, 本地版本是 %s', chalk.yellow('[警告]'), chalk.green.bold(result.latest), chalk.yellow(result.current)));
-      console.log(fmt('%s 你可以执行 %s 来安装此版本', chalk.yellow('[警告]'), chalk.green.bold('npm install -g tinyjs-cli@' + result.latest)));
+      console.log(fmt('%s tinyjs-cli 最新版本是 %s，本地版本是 %s，建议使用最新版本', chalk.yellow('[警告]'), chalk.green.bold(result.latest), chalk.yellow(result.current)));
+      console.log(fmt('%s 你可以执行 %s 来安装此版本', chalk.yellow('[警告]'), chalk.green.bold(`npm install -g tinyjs-cli@${result.latest}`)));
     }
   }
 

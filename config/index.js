@@ -11,11 +11,11 @@ module.exports = {
   },
   weiTemplate: {
     name: 'wei',
-    link: 'https://github.com/ant-tinyjs/wei.git'
+    link: 'https://github.com/ant-tinyjs/wei.git',
   },
   weiBundleTemplate: {
-    name: 'weiBundle',
-    link: 'https://github.com/ant-tinyjs/weiBundle.git'
+    name: 'wei-bundle-template',
+    link: 'https://github.com/ant-tinyjs/wei-bundle-template.git',
   },
   commands: require('./commands'),
   questions: require('./questions'),

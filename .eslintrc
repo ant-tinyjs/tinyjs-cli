@@ -1,14 +1,9 @@
 {
   "extends": "standard",
   "env": {
-    "es6": true,
-    "browser": true
+    "node": true
   },
   "globals": {
-    "t": true,
-    "Tiny": true,
-    "window": true,
-    "Image": true
   },
   "rules": {
     "semi": ["error", "always"], //必须使用分号

@@ -12,8 +12,8 @@ module.exports = [{
   name: 'resource',
   description: 'Resouce.js 生成器',
   options: [],
-}, {
-  name: 'bundle',
-  description: 'tiny bundle创建',
-  options: [],
+// }, {
+//   name: 'bundle',
+//   description: '创建 bundle',
+//   options: [],
 }];

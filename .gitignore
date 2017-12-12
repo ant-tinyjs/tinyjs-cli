@@ -1,8 +1,6 @@
 .idea/
 node_modules
-Note.md
 temp
 .DS_Store
 dist
-docs
 private.token
