@@ -66,34 +66,54 @@ tiny-cli 提供一套资源管理方案，执行 `tiny resource` 一键管理，
 module.exports = {
   ...
 
-  // 资源文件所在项目目录，如果就在根目录，此参数给空即可，如果不是，格式如：“alipay/tiny/games/”
+  /**
+   * 资源文件所在项目目录，如果就在根目录，此参数给空即可，如果不是，格式如：“alipay/tiny/games/”
+   */
   appFold: '',
 
-  // 生成的资源配置文件
-  resourceName: 'Resource.js',
+  /**
+   * 生成的资源配置文件，只扫描 <res> 目录下的资源
+   */
+  resourceName: 'resources.js',
+
+  /**
+   * 生成的资源配置模版
+   *
+   * 默认是：
+   * var RESOURCES = {
+   *  <% list.forEach(function(item, i){ %>
+   *  '<%= item.name %>': '<%= item.path %>',
+   *  <% }); %>
+   * };
+   *
+   * 也可以输出成 ES6：
+   * <% list.forEach(function(item, i){ %>
+   * import <%= item.name %> from '<%= item.path %>';
+   * <% }); %>
+   * export {
+   * <% list.forEach(function(item, i){ %>
+   *   <%= item.name %>,
+   * <% }); %>
+   * };
+   */
+  resourceTemplate: '', //为空会使用默认模版
   ...
 };
 ```
 
-其中 `appFold` 是资源文件所在的项目目录，比如：项目目录是 `myFirstGame`，那么就会去找 `myFirstGame/res` 下的所有目录及里面的资源。是的，`res` 是规定，项目下没有就无效。
-`resourceName` 配置的是 `Resource.js`，那么执行 `tiny resource` 就会在 `myFirstGame/src` 下生成 `Resource.js`，文件内容规则如下：
-
-``` js
-var RESOURCES = {
-
-// images,
-"s_bg_jpg": "res/images/bg.jpg",
-
-// sound
-};
-```
-
-然后，你就可以通过全局变量 `RESOURCES` 来获取对应的资源，变量名规则是：`s_文件名_文件类型`，比如文件：mole.png，变量名就是：`s_mole_png`。
+- **appFold**：资源文件所在的项目目录，比如：项目目录是 `myFirstGame`，那么就会去找 `myFirstGame/res` 下的所有目录及里面的资源。是的，`res` 是规定，项目下没有就无效
+- **resourceName**： 资源配置文件名，默认是 `resources.js`，那么执行 `tiny resource` 就会在 `myFirstGame/src` 下生成 `resources.js`，文件内容规则会按照 `resourceTemplate` 配置的模版输入
+- **resourceTemplate**：生成的资源配置模版，输入的变量是 `list: [{name, path}]`，其中 `name` 会转换文件后缀为全大写，并移除资源文件名中的空格和"-"等（`/\s|-|\./ig`），如：`info-bubble 1.png` => `infobubble1PNG`
 
 使用资源文件：
 
 ``` js
-var background = Tiny.Sprite.fromImage(RESOURCES['s_bg_jpg']);
+var sprite = Tiny.Sprite.fromImage(RESOURCES['infobubble1PNG']);
+// 或
+var sprite = new Tiny.Sprite(Tiny.TextureCache['infobubble1PNG']);
+
+// resourceTemplate 为 ES6 的模版
+const sprite = new Tiny.Sprite(Tiny.TextureCache[infobubble1PNG])
 ```
 
 ### 生成 tileset 文件
@@ -101,25 +121,85 @@ var background = Tiny.Sprite.fromImage(RESOURCES['s_bg_jpg']);
 > 此功能依赖 [ImageMagick](https://www.imagemagick.org)，所以使用之前请确认是否已经安装，识别方法：`which convert` 或 `which identify`。
 > 如果没有安装，OSX 设备可以通过 brew 快速安装：`brew install imagemagick`
 
+假设我们的资源文件目录为：
+
+``` bash
+.
+├── frame
+│   ├── animals
+│   │   ├── ant.png
+│   │   ├── bee.png
+│   │   └── bird.png
+│   └── enemies
+│       ├── 1.png
+│       ├── 2.png
+│       └── 3.png
+└── images
+    ├── bg.png
+    ├── cloud.png
+    ├── logo.png
+    └── mask.png
+
+```
+
 配置 `tiny-app.config.js` 文件：
 
 ``` js
 module.exports = {
   ...
-  tileset: [{
-    fold: 'res/images/animals',//默认为：{appFold}/res/images，自定义如：res/images/animals
-    name: 'mole_tile',//默认为：tileset
-    trim: false,//是否移除图片周边的透明空白，默认为：false
-    padding: 2,//图片与图片的间距，默认为：0
-    outFold: ''//默认为：{appFold}/res/images
+  /**
+   * tileset 通用配置，会 Assign 这个，对于多个 tileset 较友好
+   */
+  tilesetDefault: {
+    fold: 'res/images', //默认为：{appFold}/res/images，自定义如：res/images/animals
+    name: '', //默认为：tileset
+    trim: false, //是否移除图片周边的透明空白，默认为：false
+    padding: 2, //图片与图片的间距，默认为：0
+    outFold: '', //默认为：{appFold}/res/tileset
+  },
+
+  tileset: [ {
+    fold: 'res/frame/animals',
+    name: 'mole_tile',
+    trim: true,
+    padding: 10,
+    outFold: 'res/animals',
   }, {
-    fold: 'res/images/enemies',
-  }],
+    fold: 'res/frame/enemies',
+  }, {
+    fold: '',
+    name: 'vendor',
+  } ],
   ...
 };
 ```
 
-假设我们的项目目录是 `myFirstGame`，在根目录下执行 `tiny resource` 就会在 `myFirstGame/res/images` 下生成两个文件 `mole_tile.json` 和 `mole_tile.png`，生成的文件的文件名就是 `tiny-app.config.js` 里配置的 `tileset -> name`。
+- **tilesetDefault**：`tileset` 的通用配置，方便配置多个 tileset
+  - **fold**：资源集合所在目录
+  - **name**：生成的 tileset 文件名
+  - **trim**：是否移除子图片周围的透明空白
+  - **padding**：每个子图片直接的间距
+  - **outFold**：生成的文件输出目录
+- **tileset**：各个 tileset 的配置数组
+
+执行 `tiny resource` 后的目录结构为：
+
+``` bash
+.
+├── animals
+│   ├── mole_tile.json
+│   └── mole_tile.png
+├── frame
+├── images
+└── tileset
+    ├── tileset_enemies.json
+    ├── tileset_enemies.png
+    ├── vendor.json
+    └── vendor.png
+
+```
+
+假设我们的项目目录是 `myFirstGame`，在根目录下执行 `tiny resource` 就会在 `myFirstGame/res/animals` 下生成两个文件 `mole_tile.json` 和 `mole_tile.png`，生成的文件的文件名就是 `tiny-app.config.js` 里配置的 `tileset -> name`。
 其中 `mole_tile.png` 是一张雪碧图，是组合了 `tileset -> fold` 下的所有图片，`mole_tile.json` 是各个子图片的相关属性的定义，使用的方式也很简单。
 
 了解更多，请移步 [进阶文档](http://tinyjs.net/#/tutorial/advanced/displays/sprite)「`displays->精灵->使用 tileset`」
