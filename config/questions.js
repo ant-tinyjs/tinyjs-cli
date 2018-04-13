@@ -26,9 +26,8 @@ try {
  */
 const TYPES = {
   init: {
-    basicTpl: '简易版',
-    // offlineTpl: '离线版',
-    //onlineTpl: '在线版本'
+    basicTpl: '标准版',
+    simpleTpl: '极简版',
   },
   plugin: {
     class: '类（首字母大写，如：PluginClassName）',
@@ -57,7 +56,7 @@ module.exports = {
     name: 'description',
     message: '项目描述:',
     default: function () {
-      return 'The Tiny.js game build by tinyjs-cli';
+      return 'The Tiny.js game project build by tinyjs-cli';
     },
   }, {
     type: 'input',
@@ -94,16 +93,6 @@ module.exports = {
       return currentUser;
     },
   }],
-  bundle: [
-    {
-      type: 'input',
-      name: 'bundleName',
-      message: 'bundle名称:',
-      default: function () {
-        return 'index';
-      },
-    },
-  ],
 };
 
 function getTypes(commander) {

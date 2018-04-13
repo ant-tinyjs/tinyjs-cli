@@ -11,7 +11,7 @@ Tiny.js 本地开发工具，使用命令行快速创建游戏项目、 生成�
 -V, --version       查看版本信息
 init                初始化 Tiny.js 项目
 plugin              初始化 Tiny.js 插件库
-resource            Resouce.js 生成器
+resource            resources.js 生成器
 ```
 
 ## 环境准备
@@ -58,7 +58,7 @@ $ npm install tinyjs-cli -g
 
 tiny-cli 提供一套资源管理方案，执行 `tiny resource` 一键管理，非常方便易用。
 
-### 生成 Resource.js
+### 生成 resources.js
 
 配置 `tiny-app.config.js` 文件：
 

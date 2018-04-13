@@ -1,10 +1,10 @@
 {
   "name": "tinyjs-cli",
   "enginName": "Tiny.js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Tiny.js 本地开发工具",
   "homepage": "http://www.tinyjs.net",
-  "logo": "https://t.alipayobjects.com/images/rmsweb/T1nqFhXdJcXXXXXXXX.png",
+  "logo": "https://gw.alipayobjects.com/as/g/tiny/resources/1.0.0/images/logo.png",
   "author": {
     "name": "yiqi",
     "email": "e@yufangjun.com"
