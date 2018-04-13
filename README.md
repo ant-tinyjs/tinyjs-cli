@@ -36,7 +36,7 @@ $ npm install tinyjs-cli -g
 
 2. 按照提示步骤逐步输入信息
 
-  ![](https://zos.alipayobjects.com/rmsportal/bXkeJVrvbxoeAnOEPVmM.gif)
+  ![](https://gw.alipayobjects.com/zos/rmsportal/EaFSYYYbxxKZienZQRdG.gif)
 > 注意： `项目名`为必填项，如果不填，将使用当前目录，但是会检测此目录是否是空目录。
 
 ### 初始化 Tiny.js 插件库
