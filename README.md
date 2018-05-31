@@ -202,7 +202,7 @@ module.exports = {
 假设我们的项目目录是 `myFirstGame`，在根目录下执行 `tiny resource` 就会在 `myFirstGame/res/animals` 下生成两个文件 `mole_tile.json` 和 `mole_tile.png`，生成的文件的文件名就是 `tiny-app.config.js` 里配置的 `tileset -> name`。
 其中 `mole_tile.png` 是一张雪碧图，是组合了 `tileset -> fold` 下的所有图片，`mole_tile.json` 是各个子图片的相关属性的定义，使用的方式也很简单。
 
-了解更多，请移步 [进阶文档](http://tinyjs.net/#/tutorial/advanced/displays/sprite)「`displays->精灵->使用 tileset`」
+了解更多，请移步 [进阶文档](http://tinyjs.net/guide/advanced-displays-sprite.html)「`显示对象->精灵->使用 tileset`」
 
 ## 其他
 
