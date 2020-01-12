@@ -204,6 +204,21 @@ module.exports = {
 
 了解更多，请移步 [进阶文档](http://tinyjs.net/guide/advanced-displays-sprite.html)「`显示对象->精灵->使用 tileset`」
 
+## 生成压缩纹理
+
+tiny-cli 提供一套压缩纹理的生成方案，执行 `tiny texture-compressor` 一键生成，非常方便易用。
+
+在生成之前，你需要告诉生成器你想对哪些文件/目录下的文件进行操作，通过以下两张方法都可以：
+
+- 扩展参数：直接在命令后带上文件名或目录名，多个用空格分割，如：
+  - `tiny texture-compressor res/xxx`
+  - `tiny texture-compressor res/xxx res/xxx.png`
+- 配置文件：通过在配置文件 `tiny-app.config.js` 添加字段 `compressedTexture` 即可，如：
+  - `compressedTexture: 'res/xxx'`
+  - `compressedTexture: ['res/xxx', 'res/xxx.png']`
+
+生成器会同时生成 `astc/pvr` 两种格式的 `ktx` 文件，方便你在多个支持的环境下自动使用。
+
 ## 其他
 
 Tiny.js 是一款轻量级 HTML5 2D 游戏引擎，[了解更多？](http://tinyjs.net)

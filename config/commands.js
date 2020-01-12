@@ -12,4 +12,8 @@ module.exports = [{
   name: 'resource',
   description: 'resources.js 生成器',
   options: [],
+}, {
+  name: 'texture-compressor',
+  description: '压缩纹理生成器',
+  options: [],
 }];

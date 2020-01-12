@@ -1,3 +1,10 @@
+## 1.2.0
+
+`2020-01-12`
+
+### Added
+- 增加压缩纹理生成器：`tiny texture-compressor`，配置文件延续使用 `tiny-app.config.js`，并使用字段 `compressedTexture`，当然，同时支持带入参数，文件目录/文件名/多个都可以（如：`tiny texture-compressor res/nzd`）
+
 ## 1.1.2
 
 `2018-04-13`
