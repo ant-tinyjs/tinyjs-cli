@@ -216,6 +216,7 @@ tiny-cli 提供一套压缩纹理的生成方案，执行 `tiny texture-compress
 - 配置文件：通过在配置文件 `tiny-app.config.js` 添加字段 `compressedTexture` 即可，如：
   - `compressedTexture: 'res/xxx'`
   - `compressedTexture: ['res/xxx', 'res/xxx.png']`
+- 压缩率：在命令后追加 `-q low` 或 `--quality low` 来选择你需要的压缩纹理质量，可选值：low, medium, high，默认值：medium
 
 生成器会同时生成 `astc/pvr` 两种格式的 `ktx` 文件，方便你在多个支持的环境下自动使用。
 

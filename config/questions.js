@@ -11,15 +11,14 @@ try {
   if (!currentUser) {
     npmWhoami.sync({
       timeout: 5000,
-    }, function (err, username) {
+    }, function(err, username) {
       if (!err) {
         currentUser = username;
         utils.localStorage.set('currentUser', currentUser);
       }
     });
   }
-} catch (e) {
-}
+} catch (e) {}
 
 /**
  * choices types
@@ -41,28 +40,28 @@ module.exports = {
     name: 'tplType',
     message: '请选择项目类型',
     choices: getTypes('init'),
-    default: function () {
+    default: function() {
       return 'basicTpl';
     },
   }, {
     type: 'input',
     name: 'name',
     message: '项目名:',
-    default: function () {
+    default: function() {
       return path.basename(process.cwd());
     },
   }, {
     type: 'input',
     name: 'description',
     message: '项目描述:',
-    default: function () {
+    default: function() {
       return 'The Tiny.js game project build by tinyjs-cli';
     },
   }, {
     type: 'input',
     name: 'author',
     message: '开发人员:',
-    default: function () {
+    default: function() {
       return currentUser;
     },
   }],
@@ -74,7 +73,7 @@ module.exports = {
     type: 'input',
     name: 'description',
     message: '插件描述:',
-    default: function () {
+    default: function() {
       return 'The Tiny.js plugin';
     },
   }, {
@@ -82,14 +81,14 @@ module.exports = {
     name: 'type',
     message: '插件类型:',
     choices: getTypes('plugin'),
-    default: function () {
+    default: function() {
       return 'class';
     },
   }, {
     type: 'input',
     name: 'author',
     message: '开发人员:',
-    default: function () {
+    default: function() {
       return currentUser;
     },
   }],

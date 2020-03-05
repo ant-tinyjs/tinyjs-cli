@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 'use strict';
 
 const program = require('commander');
@@ -9,7 +10,7 @@ const fmt = require('util').format;
 const config = require('../config');
 const updator = require('../lib/updator');
 
-updator.update(function (err, result) {
+updator.update(function(err, result) {
   if (!err) {
     if (result.isOutdated) {
       console.log(fmt('%s tinyjs-cli 最新版本是 %s，本地版本是 %s，建议使用最新版本', chalk.yellow('[警告]'), chalk.green.bold(result.latest), chalk.yellow(result.current)));
@@ -22,16 +23,16 @@ updator.update(function (err, result) {
     .usage('<command> [options]'.green);
 
   config.commands.forEach((opt) => {
-    let cmd = program
-      .command(opt.name, '', {noHelp: opt.noHelp})
+    const cmd = program
+      .command(opt.name, '', { noHelp: opt.noHelp })
       .description(chalk.yellow(opt.description));
 
     (opt.options || []).forEach((o) => {
-      cmd.option(o.name, o.description);
+      cmd.option(o.name, o.description, o.defaultValue);
     });
 
-    cmd.action(function () {
-      doCommand(Array.prototype.slice.call(process.argv, 2));
+    cmd.action(() => {
+      doCommand(Array.prototype.slice.call(process.argv, 2), cmd);
     });
   });
 
@@ -42,12 +43,12 @@ updator.update(function (err, result) {
   program.parse(process.argv);
 });
 
-function doCommand(cmd) {
-  const com = cmd[0];
+function doCommand(argv, cmd) {
+  const com = argv[0];
 
   co(function *() {
-    yield require(`../lib/${com}`)(cmd.slice(1));
-  }).catch(function (e) {
+    yield require(`../lib/${com}`)(argv.slice(1), cmd);
+  }).catch(function(e) {
     console.log(e.stack);
     console.log('\n');
   });

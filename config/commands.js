@@ -15,5 +15,9 @@ module.exports = [{
 }, {
   name: 'texture-compressor',
   description: '压缩纹理生成器',
-  options: [],
+  options: [{
+    name: '-q, --quality <type>',
+    description: '压缩率，可选值：low, medium, high',
+    defaultValue: 'medium',
+  }],
 }];
