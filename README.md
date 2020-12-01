@@ -2,7 +2,7 @@
 
 ## 简介
 
-Tiny.js 本地开发工具，使用命令行快速创建游戏项目、 生成资源配置文件等。
+Tiny.js 本地开发工具，使用命令行快速创建互动项目、 生成资源配置文件等。
 
 ### 功能一览
 
@@ -222,4 +222,4 @@ tiny-cli 提供一套压缩纹理的生成方案，执行 `tiny texture-compress
 
 ## 其他
 
-Tiny.js 是一款轻量级 HTML5 2D 游戏引擎，[了解更多？](http://tinyjs.net)
+Tiny.js 是一款轻量级 HTML5 2D 互动引擎，[了解更多？](http://tinyjs.net)
