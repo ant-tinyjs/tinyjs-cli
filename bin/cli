@@ -3,12 +3,15 @@
 'use strict';
 
 const program = require('commander');
+const _ = require('lodash');
 const co = require('co');
 const pkg = require('../package.json');
 const chalk = require('chalk');
 const fmt = require('util').format;
-const config = require('../config');
+const { commands } = require('../config');
 const updator = require('../lib/updator');
+
+const examples = _.map(commands, 'examples');
 
 updator.update(function(err, result) {
   if (!err) {
@@ -22,9 +25,9 @@ updator.update(function(err, result) {
     .version(pkg.version)
     .usage('<command> [options]'.green);
 
-  config.commands.forEach((opt) => {
+  commands.forEach((opt) => {
     const cmd = program
-      .command(opt.name, '', { noHelp: opt.noHelp })
+      .command(opt.name, '', _.pick(opt, 'isDefault'))
       .description(chalk.yellow(opt.description));
 
     (opt.options || []).forEach((o) => {
@@ -40,14 +43,20 @@ updator.update(function(err, result) {
     program.help();
   }
 
+  program.addHelpText('after', `
+Examples:
+  $ ${examples.join('\n  $ ')}
+`);
+
   program.parse(process.argv);
 });
 
-function doCommand(argv, cmd) {
-  const com = argv[0];
+function doCommand(argvs, cmd) {
+  const com = argvs[0];
+  const { args } = cmd;
 
   co(function *() {
-    yield require(`../lib/${com}`)(argv.slice(1), cmd);
+    yield require(`../lib/${com}`)(args, cmd.opts());
   }).catch(function(e) {
     console.log(e.stack);
     console.log('\n');
